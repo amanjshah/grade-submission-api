@@ -1,8 +1,8 @@
 package com.practise.gradesubmission.service;
 
-import java.util.List;
-
-import com.ltp.gradesubmission.entity.Student;
+import java.util.Collection;
+import com.practise.gradesubmission.entity.Student;
+import java.util.Collections;
 
 public class StudentServiceImpl implements StudentService {
 
@@ -21,8 +21,8 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<Student> getStudents() {
-        return null;
+    public Collection<Student> getStudents() {
+        return Collections.emptyList();
     }
 
 
