@@ -3,7 +3,9 @@ package com.practise.gradesubmission.service;
 import java.util.Collection;
 import java.util.Collections;
 import com.practise.gradesubmission.entity.Course;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CourseServiceImpl implements CourseService {
 
     @Override
