@@ -3,14 +3,14 @@ package com.practise.gradesubmission.service;
 import java.util.Collection;
 import com.practise.gradesubmission.entity.Student;
 import com.practise.gradesubmission.repository.StudentRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 //This is what needs to be autowired, so @Service annotation goes here rather than on the base interface
 @Service
+@AllArgsConstructor
 public class StudentServiceImpl implements StudentService {
 
-    @Autowired
     StudentRepository studentRepository;
 
     @Override
