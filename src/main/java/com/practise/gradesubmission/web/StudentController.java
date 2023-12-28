@@ -4,16 +4,16 @@ import java.util.Collection;
 
 import com.practise.gradesubmission.entity.Student;
 import com.practise.gradesubmission.service.StudentService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping("/student")
 public class StudentController {
 
-    @Autowired
     StudentService studentService;
 
     @GetMapping("/{id}")
