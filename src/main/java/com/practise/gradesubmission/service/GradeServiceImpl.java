@@ -4,22 +4,26 @@ import java.util.Collection;
 import java.util.Collections;
 import com.practise.gradesubmission.entity.Grade;
 import com.practise.gradesubmission.repository.GradeRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.practise.gradesubmission.repository.StudentRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@AllArgsConstructor
 public class GradeServiceImpl implements GradeService {
 
-    @Autowired
+    //No need for field injection (@Autowired) due to @AllArgsConstructor
     GradeRepository gradeRepository;
+    StudentRepository studentRepository;
     
     @Override
     public Grade getGrade(Long studentId, Long courseId) {
-        return null;
+        return gradeRepository.findByStudentId(studentId);
     }
 
     @Override
     public Grade saveGrade(Grade grade, Long studentId, Long courseId) {
+        grade.setStudent(studentRepository.findById(studentId).get());
         return gradeRepository.save(grade);
     }
 
