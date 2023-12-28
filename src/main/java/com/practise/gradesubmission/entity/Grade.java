@@ -11,6 +11,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"student_id", "course_id"}))
 public class Grade {
 
     @Id
@@ -25,4 +26,12 @@ public class Grade {
     @ManyToOne(optional = false)
     @JoinColumn(name = "student_id",referencedColumnName = "id")
     private Student student;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "course_id",referencedColumnName = "id")
+    private Course course;
+
+    // Since the constraint is that you can't have multiple grades for same studentId/courseId pair...
+    // Constraint has to be specified using @UniqueConstraint inside @Table
+    // If constraint was one grade per student, can be implemented using unique = true inside @Column/@JoinColumn
 }
