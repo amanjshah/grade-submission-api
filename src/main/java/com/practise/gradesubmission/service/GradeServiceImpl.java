@@ -1,8 +1,11 @@
 package com.practise.gradesubmission.service;
 
 import java.util.Collection;
-import java.util.Collections;
+import java.util.Optional;
+
 import com.practise.gradesubmission.entity.Grade;
+import com.practise.gradesubmission.exception.GradeNotFoundException;
+import com.practise.gradesubmission.repository.CourseRepository;
 import com.practise.gradesubmission.repository.GradeRepository;
 import com.practise.gradesubmission.repository.StudentRepository;
 import lombok.AllArgsConstructor;
@@ -15,40 +18,50 @@ public class GradeServiceImpl implements GradeService {
     //No need for field injection (@Autowired) due to @AllArgsConstructor
     GradeRepository gradeRepository;
     StudentRepository studentRepository;
+    CourseRepository courseRepository;
     
     @Override
     public Grade getGrade(Long studentId, Long courseId) {
-        return gradeRepository.findByStudentId(studentId);
+        return unwrapGrade(gradeRepository.findByStudentIdAndCourseId(studentId, courseId), studentId, courseId);
     }
 
     @Override
     public Grade saveGrade(Grade grade, Long studentId, Long courseId) {
-        grade.setStudent(studentRepository.findById(studentId).get());
+        grade.setStudent(StudentServiceImpl.unwrapStudent(studentRepository.findById(studentId), studentId));
+        grade.setCourse(CourseServiceImpl.unwrapCourse(courseRepository.findById(courseId), courseId));
         return gradeRepository.save(grade);
     }
 
     @Override
     public Grade updateGrade(String score, Long studentId, Long courseId) {
-        return null;
+        Grade grade = unwrapGrade(gradeRepository.findByStudentIdAndCourseId(studentId, courseId), studentId, courseId);
+        grade.setScore(score);
+        return gradeRepository.save(grade);
     }
 
     @Override
     public void deleteGrade(Long studentId, Long courseId) {
+        gradeRepository.deleteByStudentIdAndCourseId(studentId, courseId);
     }
 
     @Override
     public Collection<Grade> getStudentGrades(Long studentId) {
-        return Collections.emptyList();
+        return gradeRepository.findByStudentId(studentId);
     }
 
     @Override
     public Collection<Grade> getCourseGrades(Long courseId) {
-        return Collections.emptyList();
+        return gradeRepository.findByCourseId(courseId);
     }
 
     @Override
     public Collection<Grade> getAllGrades() {
-        return Collections.emptyList();
+        return (Collection<Grade>) gradeRepository.findAll();
+    }
+
+    static Grade unwrapGrade(Optional<Grade> grade, Long studentId, Long courseId){
+        if (grade.isPresent()) return grade.get();
+        throw new GradeNotFoundException(studentId, courseId);
     }
 
 }

@@ -1,12 +1,15 @@
 package com.practise.gradesubmission.service;
 
 import java.util.Collection;
+import java.util.Optional;
+
 import com.practise.gradesubmission.entity.Student;
+import com.practise.gradesubmission.exception.StudentNotFoundException;
 import com.practise.gradesubmission.repository.StudentRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-//This is what needs to be autowired, so @Service annotation goes here rather than on the base interface
+//Require a bean of the impl class, so @Service goes here rather than base interface
 @Service
 @AllArgsConstructor
 public class StudentServiceImpl implements StudentService {
@@ -15,7 +18,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Student getStudent(Long id) {
-        return studentRepository.findById(id).get();
+        return unwrapStudent(studentRepository.findById(id), id);
     }
 
     @Override
@@ -33,5 +36,8 @@ public class StudentServiceImpl implements StudentService {
         return (Collection<Student>) studentRepository.findAll();
     }
 
-
+    static Student unwrapStudent(Optional<Student> student, Long id){
+        if (student.isPresent()) return student.get();
+        throw new StudentNotFoundException(id);
+    }
 }
