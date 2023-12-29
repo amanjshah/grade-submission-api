@@ -1,5 +1,6 @@
 package com.practise.gradesubmission.entity;
 
+import com.practise.gradesubmission.validation.Score;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,6 +19,7 @@ public class Grade {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Score
     @Column(nullable = false)
     private String score;
 
