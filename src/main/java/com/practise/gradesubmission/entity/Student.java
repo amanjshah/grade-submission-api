@@ -5,6 +5,8 @@ import java.util.Collection;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Past;
 import lombok.*;
 
 @Entity
@@ -20,10 +22,12 @@ public class Student {
 
     // @NonNull annotated properties will be present in the required args constructor
     @NonNull
+    @NotBlank(message = "Name cannot be blank")
     @Column(nullable = false)
     private String name;
 
     @NonNull
+    @Past(message = "The birth date must be in the past")
     @Column(nullable = false)
     private LocalDate birthDate;
 
