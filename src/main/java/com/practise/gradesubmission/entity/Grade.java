@@ -36,4 +36,5 @@ public class Grade {
     // Since the constraint is that you can't have multiple grades for same studentId/courseId pair...
     // Constraint has to be specified using @UniqueConstraint inside @Table
     // If constraint was one grade per student, can be implemented using unique = true inside @Column/@JoinColumn
+
 }
