@@ -26,12 +26,12 @@ public class UserController {
 
 	@GetMapping("/{id}")
 	public ResponseEntity<User> findById(@PathVariable Long id) {
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(userService.getUser(id), HttpStatus.OK);
 	}
 
     @PostMapping("/register")
 	public ResponseEntity<User> createUser(@Valid @RequestBody User user) {
-		return new ResponseEntity<>(HttpStatus.CREATED);
+		return new ResponseEntity<>(userService.saveUser(user), HttpStatus.CREATED);
 	}
 
 }

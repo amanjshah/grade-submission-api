@@ -3,6 +3,7 @@ package com.practise.gradesubmission.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
@@ -20,7 +21,8 @@ public class SecurityConfig {
         http
             .csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/h2/**", "/user/register").permitAll() // access h2 & registration without the need to authenticate. ' ** '  instead of ' * ' because multiple path levels will follow /h2.
+                .requestMatchers("/h2/**").permitAll() // access h2 without the need to authenticate. ' ** '  instead of ' * ' because multiple path levels will follow /h2.
+                .requestMatchers(HttpMethod.POST, SecurityConstants.REGISTER_PATH).permitAll()
                 .anyRequest().authenticated())
             .sessionManagement(session -> session
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
