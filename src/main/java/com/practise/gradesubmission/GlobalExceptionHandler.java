@@ -34,7 +34,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<Object> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
-        return new ResponseEntity<>(new ErrorResponse(List.of("Cannot save multiple grades per course per student")), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(new ErrorResponse(List.of("Cannot save identical entities")), HttpStatus.BAD_REQUEST);
     }
 
 }
