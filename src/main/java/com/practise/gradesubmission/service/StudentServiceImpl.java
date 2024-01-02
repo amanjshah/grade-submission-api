@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 import com.practise.gradesubmission.entity.Student;
-import com.practise.gradesubmission.exception.StudentNotFoundException;
+import com.practise.gradesubmission.exception.EntityNotFoundException;
 import com.practise.gradesubmission.repository.StudentRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -38,6 +38,6 @@ public class StudentServiceImpl implements StudentService {
 
     static Student unwrapStudent(Optional<Student> student, Long id){
         if (student.isPresent()) return student.get();
-        throw new StudentNotFoundException(id);
+        throw new EntityNotFoundException(id, Student.class);
     }
 }

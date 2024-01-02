@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 import com.practise.gradesubmission.entity.Course;
-import com.practise.gradesubmission.exception.CourseNotFoundException;
+import com.practise.gradesubmission.exception.EntityNotFoundException;
 import com.practise.gradesubmission.repository.CourseRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -37,6 +37,6 @@ public class CourseServiceImpl implements CourseService {
 
     static Course unwrapCourse(Optional<Course> course, Long id){
         if (course.isPresent()) return course.get();
-        throw new CourseNotFoundException(id);
+        throw new EntityNotFoundException(id, Course.class);
     }
 }

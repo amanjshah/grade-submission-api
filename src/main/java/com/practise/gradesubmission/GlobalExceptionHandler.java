@@ -2,10 +2,7 @@ package com.practise.gradesubmission;
 
 import java.util.List;
 
-import com.practise.gradesubmission.exception.CourseNotFoundException;
-import com.practise.gradesubmission.exception.ErrorResponse;
-import com.practise.gradesubmission.exception.GradeNotFoundException;
-import com.practise.gradesubmission.exception.StudentNotFoundException;
+import com.practise.gradesubmission.exception.*;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -25,7 +22,7 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(new ErrorResponse(errors), HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler({CourseNotFoundException.class, GradeNotFoundException.class, StudentNotFoundException.class})
+    @ExceptionHandler({GradeNotFoundException.class, EntityNotFoundException.class})
     public ResponseEntity<Object> handleResourceNotFoundException(RuntimeException ex){
         return new ResponseEntity<>(new ErrorResponse(List.of(ex.getMessage())), HttpStatus.NOT_FOUND);
     }
