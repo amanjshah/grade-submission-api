@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
+import static io.jsonwebtoken.io.Decoders.BASE64;
 
 import com.auth0.jwt.JWT;
 import com.practise.gradesubmission.security.SecurityConstants;
@@ -26,7 +27,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
             String jwtToken = authorizationHeader.replace(SecurityConstants.BEARER, "");
             // JWT tokens are in the form: "{header}.{body}.{signature}"
             // Check that the signature they send is equivalent to a test signature created using our secret key (unknown to client) & the header and body of the received token
-            String user = JWT.require(HMAC512(SecurityConstants.SECRET_KEY)).build().verify(jwtToken).getSubject();
+            String user = JWT.require(HMAC512(BASE64.decode(SecurityConstants.ENCODED_KEY))).build().verify(jwtToken).getSubject();
             // Set an authentication object for this user on the SecurityContextHolder
             // Ensure you use the UsernamePasswordAuthenticationToken constructor with 3 input fields: the one without "authorities" will not set authentication to true
             SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(user, null, List.of()));
