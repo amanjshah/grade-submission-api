@@ -2,6 +2,7 @@ package com.practise.gradesubmission.security.filter;
 
 import java.io.IOException;
 
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.practise.gradesubmission.exception.EntityNotFoundException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -18,9 +19,13 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             response.getWriter().write("Username doesn't exist. ");
             response.getWriter().flush();
+        } catch (JWTVerificationException e) {
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            response.getWriter().write("JWT token is invalid. ");
+            response.getWriter().flush();
         } catch (RuntimeException e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            response.getWriter().write("BAD REQUEST");
+            response.getWriter().write("Bad Request. ");
             response.getWriter().flush();
         }
     }
