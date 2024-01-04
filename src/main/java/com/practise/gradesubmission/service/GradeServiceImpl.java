@@ -3,8 +3,11 @@ package com.practise.gradesubmission.service;
 import java.util.Collection;
 import java.util.Optional;
 
+import com.practise.gradesubmission.entity.Course;
 import com.practise.gradesubmission.entity.Grade;
+import com.practise.gradesubmission.entity.Student;
 import com.practise.gradesubmission.exception.GradeNotFoundException;
+import com.practise.gradesubmission.exception.StudentNotEnrolledException;
 import com.practise.gradesubmission.repository.CourseRepository;
 import com.practise.gradesubmission.repository.GradeRepository;
 import com.practise.gradesubmission.repository.StudentRepository;
@@ -27,6 +30,9 @@ public class GradeServiceImpl implements GradeService {
 
     @Override
     public Grade saveGrade(Grade grade, Long studentId, Long courseId) {
+        Student student = StudentServiceImpl.unwrapStudent(studentRepository.findById(studentId), studentId);
+        Course course = CourseServiceImpl.unwrapCourse(courseRepository.findById(courseId), courseId);
+        if (!student.getCourses().contains(course)) throw new StudentNotEnrolledException(studentId, courseId);
         grade.setStudent(StudentServiceImpl.unwrapStudent(studentRepository.findById(studentId), studentId));
         grade.setCourse(CourseServiceImpl.unwrapCourse(courseRepository.findById(courseId), courseId));
         return gradeRepository.save(grade);

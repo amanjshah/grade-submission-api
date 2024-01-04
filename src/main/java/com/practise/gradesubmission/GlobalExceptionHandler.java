@@ -22,7 +22,7 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(new ErrorResponse(errors), HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler({GradeNotFoundException.class, EntityNotFoundException.class})
+    @ExceptionHandler({GradeNotFoundException.class, EntityNotFoundException.class, StudentNotEnrolledException.class})
     public ResponseEntity<Object> handleResourceNotFoundException(RuntimeException ex){
         return new ResponseEntity<>(new ErrorResponse(List.of(ex.getMessage())), HttpStatus.NOT_FOUND);
     }
