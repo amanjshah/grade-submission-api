@@ -2,10 +2,13 @@ package com.practise.gradesubmission.service;
 
 import java.util.Collection;
 import java.util.Optional;
+import java.util.Set;
 
 import com.practise.gradesubmission.entity.Course;
+import com.practise.gradesubmission.entity.Student;
 import com.practise.gradesubmission.exception.EntityNotFoundException;
 import com.practise.gradesubmission.repository.CourseRepository;
+import com.practise.gradesubmission.repository.StudentRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +17,7 @@ import org.springframework.stereotype.Service;
 public class CourseServiceImpl implements CourseService {
 
     CourseRepository courseRepository;
+    StudentRepository studentRepository;
 
     @Override
     public Course getCourse(Long id) {
@@ -33,6 +37,18 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public Collection<Course> getCourses() {
         return (Collection<Course>) courseRepository.findAll();
+    }
+
+    @Override
+    public Course addStudentToCourse(Long studentId, Long courseId) {
+        Course course = getCourse(courseId);
+        course.getStudents().add(StudentServiceImpl.unwrapStudent(studentRepository.findById(studentId), studentId));
+        return course;
+    }
+
+    @Override
+    public Set<Student> getEnrolledStudents(Long id) {
+        return getCourse(id).getStudents();
     }
 
     static Course unwrapCourse(Optional<Course> course, Long id){

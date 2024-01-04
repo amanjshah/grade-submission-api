@@ -2,6 +2,7 @@ package com.practise.gradesubmission.entity;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -41,5 +42,18 @@ public class Student {
     @JsonIgnore
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
     private Collection<Grade> grades;
+
+    // Both Student and Course are "owning" sides in their many-to-many relationship
+    // Sometimes only one entity in the many-to-many relationship should manage the relationship
+    // In such cases, the non-owning side does not manage relationship, so should NOT have @JoinTable annotation.
+    // Use mappedBy parameter in @ManyToMany to ensure JPA does not manage relationship from this side
+    @JsonIgnore
+    @ManyToMany
+    @JoinTable(
+        name = "course_student",
+        joinColumns = @JoinColumn(name = "student_id", referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "course_id", referencedColumnName = "id")
+    )
+    private Set<Course> courses;
 
 }

@@ -1,7 +1,9 @@
 package com.practise.gradesubmission.web;
 
 import java.util.Collection;
+import java.util.Set;
 
+import com.practise.gradesubmission.entity.Course;
 import com.practise.gradesubmission.entity.Student;
 import com.practise.gradesubmission.service.StudentService;
 import lombok.AllArgsConstructor;
@@ -35,5 +37,10 @@ public class StudentController {
     public ResponseEntity<HttpStatus> deleteStudent(@PathVariable Long id){
         studentService.deleteStudent(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/{id}/courses")
+    public ResponseEntity<Set<Course>> getEnrolledCourses(@PathVariable Long id) {
+        return new ResponseEntity<>(studentService.getEnrolledCourses(id), HttpStatus.OK);
     }
 }

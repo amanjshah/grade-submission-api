@@ -1,8 +1,10 @@
 package com.practise.gradesubmission.web;
 
 import java.util.Collection;
+import java.util.Set;
 
 import com.practise.gradesubmission.entity.Course;
+import com.practise.gradesubmission.entity.Student;
 import com.practise.gradesubmission.service.CourseService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -35,6 +37,16 @@ public class CourseController {
     public ResponseEntity<HttpStatus> deleteCourse(@PathVariable Long id) {
         courseService.deleteCourse(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PutMapping("/{courseId}/student/{studentId}")
+    public ResponseEntity<Course> enrollStudentToCourse(@PathVariable Long courseId, @PathVariable Long studentId) {
+        return new ResponseEntity<>(courseService.addStudentToCourse(studentId, courseId), HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}/students")
+    public ResponseEntity<Set<Student>> getEnrolledStudents(@PathVariable Long id) {
+        return new ResponseEntity<>(courseService.getEnrolledStudents(id), HttpStatus.OK);
     }
 
 }

@@ -2,7 +2,9 @@ package com.practise.gradesubmission.service;
 
 import java.util.Collection;
 import java.util.Optional;
+import java.util.Set;
 
+import com.practise.gradesubmission.entity.Course;
 import com.practise.gradesubmission.entity.Student;
 import com.practise.gradesubmission.exception.EntityNotFoundException;
 import com.practise.gradesubmission.repository.StudentRepository;
@@ -34,6 +36,11 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public Collection<Student> getStudents() {
         return (Collection<Student>) studentRepository.findAll();
+    }
+
+    @Override
+    public Set<Course> getEnrolledCourses(Long id) {
+        return getStudent(id).getCourses();
     }
 
     static Student unwrapStudent(Optional<Student> student, Long id){

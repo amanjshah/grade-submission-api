@@ -1,6 +1,7 @@
 package com.practise.gradesubmission.entity;
 
 import java.util.Collection;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -37,4 +38,12 @@ public class Course {
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private Collection<Grade> grades;
 
+    @JsonIgnore
+    @ManyToMany
+    @JoinTable(
+        name = "course_student",
+        joinColumns = @JoinColumn(name = "course_id", referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "student_id", referencedColumnName = "id")
+    )
+    private Set<Student> students;
 }
