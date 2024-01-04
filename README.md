@@ -1,6 +1,21 @@
+
 # Grade Submission REST API
 
+## Overview
+
 Simple API which allows authenticated users to create/update/view/delete student/course/grade entries in a shared MySQL database.
+
+
+## Data
+ 
+- JPA entities: Student, Grade, Course, User
+- One-to-many relationship between Student and Grade
+- One-to-many relationship between Course and Grade
+- Many-to-many relationship between Student and Course
+
+
+## Endpoints
+Swagger OpenAPI spec pending completion
 
 
 ## Security
