@@ -25,6 +25,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         AuthenticationFilter authenticationFilter = new AuthenticationFilter(authenticationManager);
+        // Set authentication filter to run on /authenticate endpoint
         authenticationFilter.setFilterProcessesUrl("/authenticate");
         http
             .csrf(AbstractHttpConfigurer::disable)
@@ -37,6 +38,9 @@ public class SecurityConfig {
             .sessionManagement(session -> session
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         return http.build();
+
+        //.addFilter(): can add only instance of concrete spring defined filters or subclasses of those concrete spring security defined filters.
+        //.addFilterAfter()/.addFilterBefore(): filter can be any custom filter that implements GenericFilterBean (in most cases OncePerRequestFilter is used).
     }
     
 }
